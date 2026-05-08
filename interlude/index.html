@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interlude by GentleSpace Labs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream-base:        #1A1410;
+            --cream-deep:        #201812;
+            --cream-text:        #E8D5B0;
+            --earth-night:       #1C1008;
+            --ocean-dark:        #061B28;
+            --sound-tile:        #0E1E2A;
+            --forest-deep:       #1E3A22;
+            --abyss:             #090F14;
+            --cyan:              #4ECDC4;
+            --cyan-glow:         rgba(78, 205, 196, 0.10);
+            --cyan-border:       rgba(78, 205, 196, 0.25);
+            --text-on-cream:     #1C1008;
+            --text-muted-cream:  #5C4A3A;
+            --text-on-dark:      #E8D5B0;
+            --text-muted-dark:   rgba(232, 213, 176, 0.55);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream-base);
+            color: var(--text-on-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════
+           HERO
+        ═══════════════════════════════ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem 6rem;
+            background: var(--cream-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* paper grain */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* soft warm radial centre */
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(28,16,8,0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 820px;
+            animation: fadeUp 1.1s cubic-bezier(.16,1,.3,1) both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .app-icon {
+            width: 112px;
+            height: 112px;
+            margin: 0 auto 2.2rem;
+            animation: float 4.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 24px rgba(232,213,176,0.12)) drop-shadow(0 16px 40px rgba(0,0,0,0.5));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-10px); }
+        }
+
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 22px;
+        }
+
+        h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(2.6rem, 6vw, 4.6rem);
+            font-weight: 300;
+            color: var(--cream-text);
+            margin-bottom: 1.4rem;
+            line-height: 1.08;
+            letter-spacing: -0.025em;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.4vw, 1.3rem);
+            color: var(--text-muted-dark);
+            margin-bottom: 2.8rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.65;
+        }
+
+        /* hero CTA */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2.8rem;
+            background: var(--forest-deep);
+            color: var(--cream-text);
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 500;
+            font-size: 1.05rem;
+            letter-spacing: 0.015em;
+            transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+            animation: fadeUp 1.1s cubic-bezier(.16,1,.3,1) 0.25s both;
+        }
+
+        .cta-button:hover {
+            background: #265429;
+            transform: translateY(-2px);
+            box-shadow: 0 14px 36px rgba(30,58,34,0.28);
+        }
+
+        /* ═══════════════════════════════
+           WAVE DIVIDERS
+        ═══════════════════════════════ */
+        .wave {
+            display: block;
+            line-height: 0;
+            overflow: hidden;
+            margin-top: -1px;
+        }
+
+        .wave svg {
+            display: block;
+            width: 100%;
+        }
+
+        /* ═══════════════════════════════
+           PROBLEM
+        ═══════════════════════════════ */
+        .problem-section {
+            padding: 6rem 2rem 7rem;
+            background: var(--cream-deep);
+        }
+
+        .problem-content {
+            max-width: 1040px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(1.85rem, 4vw, 3rem);
+            font-weight: 400;
+            line-height: 1.18;
+            color: var(--cream-text);
+            margin-bottom: 0.9rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted-dark);
+            max-width: 620px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-top: 3.5rem;
+        }
+
+        .problem-item {
+            padding: 1.8rem 1.4rem;
+            background: #2C1E12;
+            border-radius: 14px;
+            border-left: 2px solid var(--cyan);
+            text-align: left;
+            cursor: default;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.55s cubic-bezier(.16,1,.3,1) forwards;
+        }
+
+        .problem-item:nth-child(1) { animation-delay: 0.05s; }
+        .problem-item:nth-child(2) { animation-delay: 0.15s; }
+        .problem-item:nth-child(3) { animation-delay: 0.25s; }
+        .problem-item:nth-child(4) { animation-delay: 0.35s; }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .problem-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 48px rgba(0,0,0,0.28), inset 0 0 0 1px rgba(78,205,196,0.12);
+        }
+
+        .problem-icon {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 1.25rem;
+        }
+
+        .problem-icon svg { width: 100%; height: 100%; }
+
+        .problem-text {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.15rem;
+            color: var(--cream-text);
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        /* ═══════════════════════════════
+           SOLUTION  (dark ocean panel)
+        ═══════════════════════════════ */
+        .solution-section {
+            padding: 7rem 2rem;
+            background: var(--ocean-dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* bioluminescent particle texture */
+        .solution-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle, rgba(78,205,196,0.55) 1px, transparent 1px),
+                radial-gradient(circle, rgba(78,205,196,0.35) 1px, transparent 1px),
+                radial-gradient(circle, rgba(78,205,196,0.45) 1.5px, transparent 1.5px),
+                radial-gradient(circle, rgba(78,205,196,0.25) 1px, transparent 1px);
+            background-size: 110px 110px, 190px 190px, 270px 270px, 350px 350px;
+            background-position: 10px 20px, 55px 90px, 130px 50px, 200px 160px;
+            opacity: 0.38;
+            pointer-events: none;
+            animation: particleDrift 18s ease-in-out infinite alternate;
+        }
+
+        @keyframes particleDrift {
+            from { background-position: 10px 20px, 55px 90px, 130px 50px, 200px 160px; }
+            to   { background-position: 20px 40px, 65px 70px, 150px 70px, 180px 140px; }
+        }
+
+        .solution-content {
+            max-width: 860px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .solution-section h2 { color: var(--cream-text); }
+        .solution-section .section-subtitle { color: var(--text-muted-dark); }
+
+        .relief-statement {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(1.45rem, 2.8vw, 2.2rem);
+            color: var(--cream-text);
+            margin: 3rem auto 0;
+            max-width: 720px;
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.55;
+            padding: 2.5rem 3rem;
+            background: rgba(14, 30, 42, 0.65);
+            border-radius: 14px;
+            border: 1px solid var(--cyan-border);
+            backdrop-filter: blur(6px);
+        }
+
+        /* ═══════════════════════════════
+           FEATURES
+        ═══════════════════════════════ */
+        .features-section {
+            padding: 7rem 2rem;
+            background: var(--cream-base);
+        }
+
+        .features-content {
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        .feature {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            margin-bottom: 7rem;
+            align-items: center;
+        }
+
+        .feature:last-child { margin-bottom: 0; }
+
+        /* alternate: even → image on right */
+        .feature:nth-child(even) .feature-image { order: 2; }
+        .feature:nth-child(even) .feature-text  { order: 1; }
+
+        .feature-image {
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow:
+                0 4px 12px rgba(28,16,8,0.08),
+                0 24px 56px rgba(28,16,8,0.14);
+            transition: transform 0.4s cubic-bezier(.16,1,.3,1);
+            background: var(--earth-night); /* letterbox for screenshots */
+        }
+
+        .feature-image:hover { transform: scale(1.025) translateY(-3px); }
+
+        .feature-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ═══════════════════════════════
+           TESTIMONIALS
+        ═══════════════════════════════ */
+        .testimonials-section {
+            padding: 6rem 0 7rem;
+            background: var(--cream-base);
+            overflow: hidden;
+        }
+
+        .testimonials-header {
+            text-align: center;
+            padding: 0 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .testimonials-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted-dark);
+        }
+
+        .testimonials-track-outer {
+            overflow-x: scroll;
+            scrollbar-width: none;
+            cursor: grab;
+            user-select: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .testimonials-track-outer::-webkit-scrollbar { display: none; }
+        .testimonials-track-outer.is-dragging { cursor: grabbing; }
+
+        .testimonials-track-outer.is-static {
+            display: flex;
+            justify-content: center;
+            overflow-x: visible;
+            cursor: default;
+        }
+
+        .testimonials-track-outer.is-static .testimonials-track {
+            width: auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .testimonials-track {
+            display: flex;
+            gap: 1.4rem;
+            width: max-content;
+            padding: 0.5rem 2rem 1.5rem;
+        }
+
+        .testimonial-card {
+            width: 290px;
+            flex-shrink: 0;
+            padding: 1.7rem 1.5rem 1.5rem;
+            background: #2C1E12;
+            border-radius: 14px;
+            border-left: 2px solid var(--cyan);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            box-shadow: 0 16px 40px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(78,205,196,0.1);
+        }
+
+        .testimonial-quote-mark {
+            display: block;
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.8rem;
+            line-height: 0.8;
+            color: var(--cyan);
+            opacity: 0.45;
+            margin-bottom: 0.8rem;
+        }
+
+        .testimonial-text {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-size: 1.08rem;
+            color: var(--cream-text);
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+        }
+
+        .testimonial-divider {
+            width: 28px;
+            height: 1px;
+            background: rgba(232,213,176,0.18);
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--cream-text);
+            margin-bottom: 0.2rem;
+        }
+
+        .testimonial-role {
+            font-size: 0.78rem;
+            color: var(--text-muted-dark);
+        }
+
+        /* diagonal split for feature 3 */
+        .split-diagonal {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 9 / 20;
+        }
+
+        .split-diagonal img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .diag-bottom-left {
+            clip-path: polygon(0% 0%, 0% 100%, 100% 100%);
+        }
+
+        .diag-top-right {
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%);
+        }
+
+        .diag-line {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .feature-text h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(1.65rem, 2.8vw, 2.3rem);
+            color: var(--cream-text);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            line-height: 1.15;
+        }
+
+        .feature-description {
+            font-size: 1.05rem;
+            color: var(--text-muted-dark);
+            line-height: 1.8;
+            margin-bottom: 1.6rem;
+        }
+
+        .feature-benefit {
+            display: inline-block;
+            font-size: 0.9rem;
+            color: #6DBF78;
+            font-weight: 500;
+            padding: 0.55rem 1.15rem;
+            background: rgba(30,58,34,0.35);
+            border-radius: 100px;
+            border: 1px solid rgba(109,191,120,0.25);
+        }
+
+        /* ═══════════════════════════════
+           HOW IT WORKS  (forest green)
+        ═══════════════════════════════ */
+        .how-section {
+            padding: 7rem 2rem;
+            background: var(--forest-deep);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* subtle organic vein lines */
+        .how-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'%3E%3Cpath d='M250,0 C250,250 0,250 0,500' stroke='%23E8D5B0' stroke-width='1.5' fill='none'/%3E%3Cpath d='M500,0 C500,250 250,250 250,500' stroke='%23E8D5B0' stroke-width='1.5' fill='none'/%3E%3Cpath d='M0,0 C125,250 375,250 500,500' stroke='%23E8D5B0' stroke-width='1' fill='none' opacity='0.5'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .how-content {
+            max-width: 940px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .how-section h2 { color: var(--cream-text); }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .step {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideUp 0.55s cubic-bezier(.16,1,.3,1) forwards;
+        }
+
+        .step:nth-child(1) { animation-delay: 0.1s; }
+        .step:nth-child(2) { animation-delay: 0.22s; }
+        .step:nth-child(3) { animation-delay: 0.34s; }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 1.5rem;
+            border: 1.5px solid var(--cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--cyan);
+            background: transparent;
+        }
+
+        .step h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: var(--cream-text);
+            margin-bottom: 0.7rem;
+        }
+
+        .step p {
+            color: var(--text-muted-dark);
+            font-size: 0.96rem;
+            line-height: 1.7;
+        }
+
+        /* ═══════════════════════════════
+           FINAL CTA  (near-black)
+        ═══════════════════════════════ */
+        .final-cta {
+            padding: 9rem 2rem;
+            background: var(--abyss);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* radial cyan glow */
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -58%);
+            width: 700px;
+            height: 360px;
+            background: radial-gradient(ellipse, rgba(78,205,196,0.07) 0%, transparent 68%);
+            pointer-events: none;
+        }
+
+        .final-cta-content {
+            max-width: 640px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .final-cta h2 { color: var(--cream-text); }
+
+        .final-cta .section-subtitle {
+            color: var(--text-muted-dark);
+            margin-top: 0.5rem;
+        }
+
+        /* cyan CTA in dark context */
+        .final-cta .cta-button {
+            background: var(--cyan);
+            color: var(--abyss);
+            font-weight: 700;
+            margin-top: 2.2rem;
+        }
+
+        .final-cta .cta-button:hover {
+            background: #62D9D1;
+            box-shadow: 0 14px 40px rgba(78,205,196,0.22);
+            transform: translateY(-2px);
+        }
+
+        .final-cta-subtitle {
+            opacity: 0;
+            transform: translateY(-14px);
+            transition: opacity 0.75s ease-out, transform 0.75s ease-out;
+        }
+
+        .final-cta-subtitle.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ═══════════════════════════════
+           APP BADGES
+        ═══════════════════════════════ */
+        .app-badges { margin-top: 3rem; text-align: center; }
+
+        .badges-label {
+            font-size: 0.82rem;
+            color: var(--text-muted-dark);
+            margin-bottom: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .badges-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge-link {
+            display: inline-block;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .badge-link:hover { transform: translateY(-3px); opacity: 0.85; }
+
+        .app-badge { display: block; height: auto; }
+
+        .badge-link:first-child .app-badge { height: 50px; }
+        .badge-link:last-child  .app-badge { height: 70px; }
+
+        /* coming soon wrapper */
+        .badge-soon-wrap {
+            position: relative;
+            display: inline-block;
+        }
+
+        .badge-soon-wrap .badge-link {
+            opacity: 0.45;
+            pointer-events: none;
+            cursor: default;
+            filter: grayscale(0.3);
+        }
+
+        .coming-soon-tag {
+            position: absolute;
+            top: -11px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--cyan);
+            color: var(--abyss);
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 0.18rem 0.6rem;
+            border-radius: 100px;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            z-index: 1;
+        }
+
+        /* ═══════════════════════════════
+           FOOTER
+        ═══════════════════════════════ */
+        footer {
+            padding: 2.5rem 2rem;
+            background: var(--earth-night);
+            color: rgba(232, 213, 176, 0.38);
+            text-align: center;
+            font-size: 0.88rem;
+            letter-spacing: 0.01em;
+        }
+
+        /* ═══════════════════════════════
+           SCROLL ANIMATIONS
+        ═══════════════════════════════ */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.75s cubic-bezier(.16,1,.3,1), transform 0.75s cubic-bezier(.16,1,.3,1);
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ═══════════════════════════════
+           STICKY DOWNLOAD
+        ═══════════════════════════════ */
+        .sticky-download {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            pointer-events: none;
+        }
+
+        .sticky-download.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .sticky-download .cta-button {
+            padding: 0.85rem 1.8rem;
+            font-size: 0.93rem;
+            animation: none;
+            background: var(--earth-night);
+            color: var(--cream-text);
+            border: 1px solid rgba(232,213,176,0.20);
+            box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+            font-weight: 500;
+        }
+
+        .sticky-download .cta-button:hover {
+            background: #2A1810;
+            transform: translateY(-2px);
+        }
+
+        /* ═══════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════ */
+        @media (max-width: 900px) {
+            .problem-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            body { overflow-x: hidden; }
+
+            .hero { min-height: 92vh; padding: 2rem 1.4rem 5rem; }
+            .app-icon { width: 88px; height: 88px; }
+            h1 { font-size: 2.05rem; }
+            .hero-subtitle { font-size: 1rem; margin-bottom: 2rem; }
+            .cta-button { padding: 0.9rem 2.2rem; font-size: 0.98rem; }
+
+            .problem-section,
+            .solution-section,
+            .features-section,
+            .how-section { padding: 4.5rem 1.4rem; }
+
+            .final-cta { padding: 5.5rem 1.4rem; }
+
+            h2 { font-size: 1.75rem; }
+            .section-subtitle { font-size: 1rem; }
+
+            .problem-grid { grid-template-columns: 1fr; gap: 1rem; margin-top: 2.5rem; }
+
+            .relief-statement {
+                font-size: 1.25rem;
+                padding: 1.8rem 1.6rem;
+            }
+
+            .feature {
+                grid-template-columns: 1fr;
+                gap: 1.8rem;
+                margin-bottom: 4rem;
+            }
+
+            .feature:nth-child(even) .feature-image,
+            .feature:nth-child(even) .feature-text { order: unset; }
+
+            .feature-text h3 { font-size: 1.55rem; }
+            .feature-description { font-size: 0.98rem; }
+
+            .steps-grid { grid-template-columns: 1fr; gap: 2.2rem; margin-top: 2.5rem; }
+
+            .badge-link:first-child .app-badge { height: 44px; }
+            .badge-link:last-child  .app-badge { height: 62px; }
+
+            .sticky-download { bottom: 1.2rem; right: 1.2rem; left: 1.2rem; text-align: center; }
+            .sticky-download .cta-button { width: 100%; max-width: 320px; justify-content: center; }
+        }
+
+        @media (max-width: 400px) {
+            h1 { font-size: 1.75rem; }
+            .problem-icon { width: 44px; height: 44px; }
+            .relief-statement { font-size: 1.1rem; padding: 1.4rem 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ░░░ HERO ░░░ -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="app-icon">
+                <img src="../image2/icon.webp" alt="Relax App Icon">
+            </div>
+            <h1>Your mind won't shut off.<br>We can help.</h1>
+            <p class="hero-subtitle">Immersive soundscapes and calming visuals designed to quiet mental noise in under 3 minutes.</p>
+            <a href="#solution" class="cta-button">Start Finding Calm</a>
+        </div>
+    </section>
+
+    <!-- wave: cream-base → cream-deep -->
+    <div class="wave" style="background: var(--cream-deep);">
+        <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,0 C400,56 1040,0 1440,56 L1440,0 Z" fill="#1A1410"/>
+        </svg>
+    </div>
+
+    <!-- ░░░ PROBLEM ░░░ -->
+    <section class="problem-section">
+        <div class="problem-content">
+            <h2>Stop trying to "fix" yourself. Start turning down the noise.</h2>
+            <p class="section-subtitle">Your brain needs sensory relief, not another breathing technique.</p>
+
+            <div class="problem-grid">
+
+                <div class="problem-item">
+                    <div class="problem-icon">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="20" stroke="#4ECDC4" stroke-width="2" fill="none"/>
+                            <path d="M35 35 Q30 50 35 65" stroke="#4ECDC4" stroke-width="1.5" fill="none" opacity="0.8"/>
+                            <path d="M65 35 Q70 50 65 65" stroke="#4ECDC4" stroke-width="1.5" fill="none" opacity="0.8"/>
+                            <circle cx="50" cy="50" r="30" stroke="#4ECDC4" stroke-width="1.5" fill="none" opacity="0.4" stroke-dasharray="3 3">
+                                <animate attributeName="r" values="30;35;30" dur="2s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="50" cy="50" r="38" stroke="#4ECDC4" stroke-width="1.5" fill="none" opacity="0.3" stroke-dasharray="3 3">
+                                <animate attributeName="r" values="38;43;38" dur="2.5s" repeatCount="indefinite"/>
+                                <animate attributeName="opacity" values="0.3;0.1;0.3" dur="2.5s" repeatCount="indefinite"/>
+                            </circle>
+                        </svg>
+                    </div>
+                    <p class="problem-text">"My mind won't stop racing"</p>
+                </div>
+
+                <div class="problem-item">
+                    <div class="problem-icon">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 50 L30 40 L35 55 L45 35 L50 50 L55 35 L65 55 L70 40 L80 50"
+                                  stroke="#4ECDC4" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M25 60 L32 52 L38 63 L48 45 L52 60 L62 48 L68 62 L75 55"
+                                  stroke="#4ECDC4" stroke-width="2" fill="none" opacity="0.55" stroke-linecap="round" stroke-linejoin="round">
+                                <animate attributeName="opacity" values="0.55;0.25;0.55" dur="1.5s" repeatCount="indefinite"/>
+                            </path>
+                            <circle cx="50" cy="50" r="3" fill="#4ECDC4">
+                                <animate attributeName="r" values="3;5;3" dur="1s" repeatCount="indefinite"/>
+                            </circle>
+                        </svg>
+                    </div>
+                    <p class="problem-text">"I feel anxious and wired"</p>
+                </div>
+
+                <div class="problem-item">
+                    <div class="problem-icon">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M65 30 A18 18 0 0 0 65 70 A22 22 0 0 1 65 30 Z"
+                                  stroke="#4ECDC4" stroke-width="2.5" fill="rgba(78,205,196,0.08)" stroke-linecap="round"/>
+                            <line x1="20" y1="28" x2="28" y2="33" stroke="#4ECDC4" stroke-width="2.5" stroke-linecap="round">
+                                <animate attributeName="opacity" values="0.25;1;0.25" dur="2s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="82" y1="25" x2="88" y2="30" stroke="#4ECDC4" stroke-width="2.5" stroke-linecap="round">
+                                <animate attributeName="opacity" values="1;0.25;1" dur="2s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="15" y1="50" x2="25" y2="50" stroke="#4ECDC4" stroke-width="2.5" stroke-linecap="round">
+                                <animate attributeName="opacity" values="0.3;1;0.3" dur="2.2s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="84" y1="50" x2="93" y2="50" stroke="#4ECDC4" stroke-width="2.5" stroke-linecap="round">
+                                <animate attributeName="opacity" values="1;0.2;1" dur="2.2s" repeatCount="indefinite"/>
+                            </line>
+                            <circle cx="78" cy="38" r="2.2" fill="#4ECDC4">
+                                <animate attributeName="opacity" values="0.2;1;0.2" dur="3s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="25" cy="63" r="2.2" fill="#4ECDC4">
+                                <animate attributeName="opacity" values="1;0.3;1" dur="2.8s" repeatCount="indefinite"/>
+                            </circle>
+                        </svg>
+                    </div>
+                    <p class="problem-text">"I'm exhausted but can't sleep"</p>
+                </div>
+
+                <div class="problem-item">
+                    <div class="problem-icon">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="35" cy="35" r="18" stroke="#4ECDC4" stroke-width="2" fill="none" opacity="0.7">
+                                <animate attributeName="r" values="18;19.5;18" dur="4s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="65" cy="35" r="18" stroke="#4ECDC4" stroke-width="2" fill="none" opacity="0.7">
+                                <animate attributeName="r" values="18;19.5;18" dur="4.5s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="50" cy="58" r="18" stroke="#4ECDC4" stroke-width="2" fill="none" opacity="0.7">
+                                <animate attributeName="r" values="18;19.5;18" dur="4.2s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="35" cy="63" r="14" stroke="#4ECDC4" stroke-width="1.5" fill="none" opacity="0.38">
+                                <animate attributeName="r" values="14;15.5;14" dur="5s" repeatCount="indefinite"/>
+                            </circle>
+                            <circle cx="65" cy="63" r="14" stroke="#4ECDC4" stroke-width="1.5" fill="none" opacity="0.38">
+                                <animate attributeName="r" values="14;15.5;14" dur="5.5s" repeatCount="indefinite"/>
+                            </circle>
+                        </svg>
+                    </div>
+                    <p class="problem-text">"I'm mentally overloaded"</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- wave: cream-deep → ocean-dark -->
+    <div class="wave" style="background: var(--ocean-dark);">
+        <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,56 C480,0 960,56 1440,0 L1440,56 Z" fill="#201812"/>
+        </svg>
+    </div>
+
+    <!-- ░░░ SOLUTION ░░░ -->
+    <section class="solution-section" id="solution">
+        <div class="solution-content">
+            <h2>Designed for the overstimulated mind</h2>
+            <p class="section-subtitle">Your brain needs sensory relief, not another breathing technique.</p>
+            <div class="relief-statement">
+                No meditation discipline. No complex instructions. Just immediate sensory relief when your brain needs to slow down.
+            </div>
+        </div>
+    </section>
+
+    <!-- wave: ocean-dark → cream-base -->
+    <div class="wave" style="background: var(--cream-base);">
+        <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,0 C480,56 960,0 1440,56 L1440,0 Z" fill="#061B28"/>
+        </svg>
+    </div>
+    <!-- subtle separator line between features and how-section -->
+
+
+    <!-- ░░░ FEATURES ░░░ -->
+    <section class="features-section">
+        <div class="features-content">
+
+            <div class="feature animate-on-scroll">
+                <div class="feature-image">
+                    <img src="screens/hear.jpeg" alt="Nature Sounds Interface">
+                </div>
+                <div class="feature-text">
+                    <h3>Layered Nature Soundscapes</h3>
+                    <p class="feature-description">Crickets. Rain. Ocean waves. Forest breeze. Mix and layer authentic nature sounds to create your personal sound environment. We have option to auto-compose, one tap will carry your way to relaxation.</p>
+                    <span class="feature-benefit">⏱️ Mental quiet in 3-5 minutes</span>
+                </div>
+            </div>
+
+            <div class="feature animate-on-scroll">
+                <div class="feature-image">
+                    <img src="screens/breath.jpeg" alt="Breathing Exercise">
+                </div>
+                <div class="feature-text">
+                    <h3>Visual Breathing Guide</h3>
+                    <p class="feature-description">Clear your thought, Let your body carry you. Just follow the expanding circle. Your nervous system responds to the visual rhythm, slowing your heart rate and quieting mental chatter.</p>
+                    <span class="feature-benefit">○Automatic nervous system regulation</span>
+                </div>
+            </div>
+
+            <div class="feature animate-on-scroll">
+                <div class="feature-image split-diagonal">
+                    <img src="screens/sleep1.jpeg" alt="Sleep Worlds" class="diag-bottom-left">
+                    <img src="screens/sleep2.jpeg" alt="Drift Session" class="diag-top-right">
+                    <svg class="diag-line" viewBox="0 0 1 1" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="0" x2="1" y2="1" stroke="rgba(232,213,176,0.5)" stroke-width="0.004"/>
+                    </svg>
+                </div>
+                <div class="feature-text">
+                    <h3>Moving Panoramic Scenes</h3>
+                    <p class="feature-description">Dream worlds and drift sessions that give your eyes somewhere soft to land. Visual ASMR for the restless mind. Watch the stars breathe. Let sleep find you.</p>
+                    <span class="feature-benefit">😌 Effortless mental decompression</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ░░░ TESTIMONIALS ░░░ -->
+    <section class="testimonials-section">
+        <div class="testimonials-header">
+            <span class="testimonials-label">What people say</span>
+        </div>
+        <div class="testimonials-track-outer" id="testOuter">
+            <div class="testimonials-track" id="testTrack">
+
+                <!-- set A -->
+                <div class="testimonial-card">
+                    <span class="testimonial-quote-mark">"</span>
+                    <p class="testimonial-text">This makes my kids' bedtime so much easier.</p>
+                    <div class="testimonial-divider"></div>
+                    <div class="testimonial-name">Dhiyan</div>
+                    <div class="testimonial-role">Young Dad</div>
+                </div>
+                <div class="testimonial-card">
+                    <span class="testimonial-quote-mark">"</span>
+                    <p class="testimonial-text">Love it all in one package. Real deal for quick relief.</p>
+                    <div class="testimonial-divider"></div>
+                    <div class="testimonial-name">Marsel</div>
+                    <div class="testimonial-role">Master's Student</div>
+                </div>
+                <div class="testimonial-card">
+                    <span class="testimonial-quote-mark">"</span>
+                    <p class="testimonial-text">Easy to use, calming to listen to, and find a variety of cute critter sounds.</p>
+                    <div class="testimonial-divider"></div>
+                    <div class="testimonial-name">Gabi</div>
+                    <div class="testimonial-role">Young Working Mom</div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- wave: cream-base → forest-deep -->
+    <div class="wave" style="background: var(--forest-deep);">
+        <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,56 C360,0 1080,56 1440,0 L1440,56 Z" fill="#1A1410"/>
+        </svg>
+    </div>
+
+    <!-- ░░░ HOW IT WORKS ░░░ -->
+    <section class="how-section">
+        <div class="how-content">
+            <h2>Relief in three steps</h2>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Open the app</h3>
+                    <p>Choose sounds, breathing, or moving scenes based on what your brain needs right now.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Let it work</h3>
+                    <p>No effort required. Your nervous system responds to the sensory input automatically.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Feel the shift</h3>
+                    <p>Within minutes, mental noise fades. Your body relaxes. Sleep becomes possible.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- wave: forest-deep → abyss -->
+    <div class="wave" style="background: var(--abyss);">
+        <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,0 C360,56 1080,0 1440,56 L1440,0 Z" fill="#1E3A22"/>
+        </svg>
+    </div>
+
+    <!-- ░░░ FINAL CTA ░░░ -->
+    <section class="final-cta">
+        <div class="final-cta-content">
+            <h2>Your mind deserves relief</h2>
+            <p class="section-subtitle final-cta-subtitle">Don't wait until the day takes more from you,<br>Start your free self-care moment.</p>
+            <a href="https://play.google.com/store/apps/details?id=com.relax.interlude&pcampaignid=web_share" class="cta-button" target="_blank" rel="noopener">Download Interlude</a>
+
+            <div class="app-badges">
+                <p class="badges-label">Available on</p>
+                <div class="badges-container">
+                    <div class="badge-soon-wrap" style="margin-top:5px;">
+                        <span class="coming-soon-tag">Coming Soon</span>
+                        <a class="badge-link" tabindex="-1" aria-disabled="true">
+                            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" class="app-badge" style="height:50px;width:auto;">
+                        </a>
+                    </div>
+                    <a href="https://play.google.com/store/apps/details?id=com.relax.interlude&pcampaignid=web_share" class="badge-link" target="_blank" rel="noopener">
+                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" class="app-badge">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ░░░ FOOTER ░░░ -->
+    <footer>
+        <p>Interlude&trade; by GentleSpace Labs &copy; 2025. Designed to bring a quiet place for busy minds.</p>
+    </footer>
+
+    <!-- ░░░ STICKY DOWNLOAD ░░░ -->
+    <div class="sticky-download" id="stickyDownload">
+        <a href="https://play.google.com/store/apps/details?id=com.relax.interlude&pcampaignid=web_share" class="cta-button" target="_blank" rel="noopener">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;margin-right:0.4rem;flex-shrink:0;">
+                <rect x="5" y="2" width="14" height="20" rx="2" stroke="currentColor" stroke-width="2" fill="none"/>
+                <line x1="12" y1="18" x2="12" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span>Download Interlude</span>
+        </a>
+    </div>
+
+    <script>
+        // Scroll-triggered reveals
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => revealObserver.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Sticky download button
+        const stickyDownload    = document.getElementById('stickyDownload');
+        const problemSection    = document.querySelector('.problem-section');
+        const solutionSection   = document.querySelector('.solution-section');
+        const finalCtaSection   = document.querySelector('.final-cta');
+
+        let pastSolution = false;
+
+        new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) stickyDownload.classList.remove('visible');
+            });
+        }, { threshold: 0.1 }).observe(problemSection);
+
+        new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                pastSolution = entry.isIntersecting;
+                if (entry.isIntersecting) stickyDownload.classList.add('visible');
+            });
+        }, { threshold: 0.1 }).observe(solutionSection);
+
+        new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    stickyDownload.classList.remove('visible');
+                } else if (pastSolution || window.scrollY > solutionSection.offsetTop) {
+                    stickyDownload.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 }).observe(finalCtaSection);
+
+        // Testimonials marquee — only activates if cards overflow the container
+        (function() {
+            const outer = document.getElementById('testOuter');
+            const track = document.getElementById('testTrack');
+            if (!outer || !track) return;
+
+            const SPEED = 0.6;
+            const RESUME_DELAY = 3000;
+
+            let raf = null;
+            let resumeTimer = null;
+            let isDragging = false;
+            let dragStartX = 0;
+            let dragStartScroll = 0;
+            let halfWidth = 0;
+
+            function getHalf() { halfWidth = track.scrollWidth / 2; }
+
+            function tick() {
+                outer.scrollLeft += SPEED;
+                if (outer.scrollLeft >= halfWidth) outer.scrollLeft -= halfWidth;
+                raf = requestAnimationFrame(tick);
+            }
+
+            function start() {
+                if (raf) return;
+                getHalf();
+                raf = requestAnimationFrame(tick);
+            }
+
+            function stop() {
+                if (raf) { cancelAnimationFrame(raf); raf = null; }
+            }
+
+            function scheduleResume() {
+                clearTimeout(resumeTimer);
+                resumeTimer = setTimeout(start, RESUME_DELAY);
+            }
+
+            setTimeout(function() {
+                const overflows = track.scrollWidth > outer.offsetWidth;
+
+                if (!overflows) {
+                    // static centered layout — no marquee needed
+                    outer.classList.add('is-static');
+                    return;
+                }
+
+                // duplicate cards for seamless loop
+                const origCards = Array.from(track.children);
+                origCards.forEach(function(card) {
+                    track.appendChild(card.cloneNode(true));
+                });
+
+                // pointer drag
+                outer.addEventListener('pointerdown', function(e) {
+                    stop();
+                    clearTimeout(resumeTimer);
+                    isDragging = true;
+                    dragStartX = e.clientX;
+                    dragStartScroll = outer.scrollLeft;
+                    outer.classList.add('is-dragging');
+                    outer.setPointerCapture(e.pointerId);
+                });
+
+                outer.addEventListener('pointermove', function(e) {
+                    if (!isDragging) return;
+                    const dx = dragStartX - e.clientX;
+                    let next = dragStartScroll + dx;
+                    getHalf();
+                    if (next >= halfWidth) next -= halfWidth;
+                    if (next < 0) next += halfWidth;
+                    outer.scrollLeft = next;
+                });
+
+                outer.addEventListener('pointerup', function() {
+                    isDragging = false;
+                    outer.classList.remove('is-dragging');
+                    scheduleResume();
+                });
+
+                outer.addEventListener('pointercancel', function() {
+                    isDragging = false;
+                    outer.classList.remove('is-dragging');
+                    scheduleResume();
+                });
+
+                start();
+            }, 100);
+        })();
+
+        // Final CTA subtitle replay on scroll
+        const finalCtaSubtitle = document.querySelector('.final-cta-subtitle');
+        if (finalCtaSubtitle) {
+            new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        finalCtaSubtitle.classList.add('animate-in');
+                    } else {
+                        finalCtaSubtitle.classList.remove('animate-in');
+                    }
+                });
+            }, { threshold: 0.3 }).observe(finalCtaSubtitle);
+        }
+    </script>
+</body>
+</html>

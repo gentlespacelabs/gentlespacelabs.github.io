@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GentleSpace Labs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --gs-base:      #0C0E12;
+            --gs-mid:       #141720;
+            --gs-card:      #181B24;
+            --gs-sage:      #7DAA8C;
+            --gs-sage-dim:  rgba(125,170,140,0.15);
+            --gs-sage-border: rgba(125,170,140,0.22);
+            --gs-text:      #D4D4D4;
+            --gs-muted:     #6B7280;
+            --gs-footer:    #090D10;
+
+            /* Interlude card */
+            --il-base:      #1A1410;
+            --il-text:      #E8D5B0;
+            --il-muted:     rgba(232,213,176,0.55);
+            --il-cyan:      #4ECDC4;
+            --il-border:    rgba(78,205,196,0.22);
+
+            /* Mystery card */
+            --mx-base:      #E8EDF5;
+            --mx-text:      #1A2A3A;
+            --mx-blue:      #1565C0;
+            --mx-green:     #2E7D32;
+            --mx-border:    #CBD5E1;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--gs-base);
+            color: var(--gs-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════
+           NAV
+        ═══════════════════════════════ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2.5rem;
+            transition: background 0.3s ease, backdrop-filter 0.3s ease, border-bottom 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(12,14,18,0.80);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--gs-sage-border);
+        }
+
+        .nav-brand {
+            font-family: 'Crimson Pro', serif;
+            font-weight: 300;
+            font-size: 1.25rem;
+            color: var(--gs-sage);
+            text-decoration: none;
+            letter-spacing: 0.01em;
+        }
+
+        .nav-link {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--gs-muted);
+            text-decoration: none;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover { color: var(--gs-sage); }
+
+        /* ═══════════════════════════════
+           HERO
+        ═══════════════════════════════ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 7rem 2rem 5rem;
+            background: var(--gs-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* grain */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* sage radial glow */
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 50% at 50% 45%, rgba(125,170,140,0.07) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 760px;
+        }
+
+        .hero-eyebrow {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gs-sage);
+            margin-bottom: 1.6rem;
+            opacity: 0;
+            animation: fadeUp 1s cubic-bezier(.16,1,.3,1) 0.1s forwards;
+        }
+
+        .hero h1 {
+            font-family: 'Crimson Pro', serif;
+            font-weight: 300;
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            line-height: 1.06;
+            color: var(--gs-text);
+            letter-spacing: -0.02em;
+            margin-bottom: 1.6rem;
+            opacity: 0;
+            animation: fadeUp 1.1s cubic-bezier(.16,1,.3,1) 0.22s forwards;
+        }
+
+        .hero h1 .sage { color: var(--gs-sage); }
+
+        .hero-sub {
+            font-size: clamp(1rem, 2.2vw, 1.2rem);
+            color: var(--gs-muted);
+            max-width: 540px;
+            margin: 0 auto 2.8rem;
+            line-height: 1.7;
+            opacity: 0;
+            animation: fadeUp 1.1s cubic-bezier(.16,1,.3,1) 0.38s forwards;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--gs-sage);
+            text-decoration: none;
+            letter-spacing: 0.04em;
+            border-bottom: 1px solid var(--gs-sage-border);
+            padding-bottom: 2px;
+            transition: border-color 0.2s, color 0.2s;
+            opacity: 0;
+            animation: fadeUp 1.1s cubic-bezier(.16,1,.3,1) 0.52s forwards;
+        }
+
+        .hero-cta:hover {
+            color: #9DC4AD;
+            border-color: rgba(125,170,140,0.5);
+        }
+
+        .hero-cta .arrow {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(.16,1,.3,1);
+        }
+
+        .hero-cta:hover .arrow { transform: translateY(3px); }
+
+        /* ═══════════════════════════════
+           PRODUCTS
+        ═══════════════════════════════ */
+        .products {
+            background: var(--gs-mid);
+            padding: 6rem 2rem 7rem;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+
+        .section-label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--gs-sage);
+            margin-bottom: 0.6rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Crimson Pro', serif;
+            font-weight: 300;
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            color: var(--gs-text);
+            letter-spacing: -0.01em;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.75rem;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        /* ── Shared card shell ── */
+        .card {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s cubic-bezier(.16,1,.3,1), transform 0.7s cubic-bezier(.16,1,.3,1);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:nth-child(2) { transition-delay: 0.12s; }
+
+        /* ── Interlude card ── */
+        .card--interlude {
+            background: var(--il-base);
+            border: 1px solid rgba(78,205,196,0.12);
+            padding: 2.2rem 2rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .card--interlude::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(28,16,8,0.5) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 1.4rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+        }
+
+        .card-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-icon-placeholder {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #2A1E14 0%, #1E3A22 100%);
+            border: 1px solid var(--il-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.4rem;
+            color: var(--il-cyan);
+            margin-bottom: 1.4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card--interlude .app-name {
+            font-family: 'Crimson Pro', serif;
+            font-weight: 400;
+            font-size: 1.75rem;
+            color: var(--il-text);
+            letter-spacing: -0.01em;
+            margin-bottom: 0.35rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card--interlude .app-tagline {
+            font-size: 0.95rem;
+            color: var(--il-muted);
+            margin-bottom: 1.4rem;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-pill {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.07em;
+            border-radius: 50px;
+            padding: 0.3rem 0.75rem;
+            margin-bottom: 1.8rem;
+            width: fit-content;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card--interlude .card-pill {
+            border: 1px solid var(--gs-sage-border);
+            color: var(--gs-sage);
+            background: rgba(125,170,140,0.08);
+        }
+
+        .card-bottom {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-explore {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--il-cyan);
+            color: #0A1E1C;
+            font-size: 0.88rem;
+            font-weight: 700;
+            padding: 0.55rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: background 0.22s ease, transform 0.22s cubic-bezier(.16,1,.3,1), box-shadow 0.22s ease;
+        }
+
+        .btn-explore:hover {
+            background: #62D9D1;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(78,205,196,0.28);
+        }
+
+        .platform-badge {
+            font-size: 0.72rem;
+            color: var(--il-muted);
+            letter-spacing: 0.04em;
+        }
+
+        /* ── Mystery / Coming Soon card ── */
+        .card--mystery {
+            background: var(--mx-base);
+            border: 1px solid var(--mx-border);
+            position: relative;
+            min-height: 340px;
+        }
+
+        .mystery-blur-layer {
+            padding: 2.2rem 2rem 2rem;
+            filter: blur(7px);
+            user-select: none;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .mx-icon-placeholder {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: #DCE6F4;
+            border: 1px solid var(--mx-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.4rem;
+        }
+
+        .mx-icon-dot {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--mx-blue);
+            opacity: 0.6;
+        }
+
+        .mx-app-name {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.75rem;
+            color: var(--mx-text);
+            margin-bottom: 0.35rem;
+            letter-spacing: -0.01em;
+        }
+
+        .mx-tagline {
+            font-size: 0.95rem;
+            color: #4A6B8A;
+            margin-bottom: 1.4rem;
+        }
+
+        .mx-pill {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.72rem;
+            font-weight: 500;
+            border-radius: 50px;
+            padding: 0.3rem 0.75rem;
+            border: 1px solid var(--mx-border);
+            color: var(--mx-blue);
+            background: rgba(21,101,192,0.07);
+            margin-bottom: 1.8rem;
+        }
+
+        /* Mini UI mockup rows */
+        .mx-ui-mockup {
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+        }
+
+        .mx-ui-row {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #fff;
+            border-radius: 10px;
+            padding: 0.55rem 0.75rem;
+            border: 1px solid var(--mx-border);
+        }
+
+        .mx-ui-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .mx-ui-dot.green { background: var(--mx-green); }
+        .mx-ui-dot.blue  { background: var(--mx-blue); opacity: 0.5; }
+        .mx-ui-dot.grey  { background: #B0BEC5; }
+
+        .mx-ui-line {
+            height: 8px;
+            border-radius: 4px;
+            background: #DCE6F4;
+        }
+
+        .mx-ui-badge {
+            margin-left: auto;
+            font-size: 0.65rem;
+            color: var(--mx-green);
+            background: rgba(46,125,50,0.1);
+            border-radius: 50px;
+            padding: 0.15rem 0.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Coming soon overlay */
+        .mystery-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            z-index: 2;
+        }
+
+        .coming-soon-pill {
+            background: var(--gs-sage);
+            color: #0C1A10;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 0.4rem 1.1rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 18px rgba(125,170,140,0.3);
+        }
+
+        .coming-soon-sub {
+            font-size: 0.8rem;
+            color: #4A6B8A;
+            font-style: italic;
+        }
+
+        /* ═══════════════════════════════
+           MISSION STRIP
+        ═══════════════════════════════ */
+        .mission {
+            background: var(--gs-base);
+            padding: 6.5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 50% 70% at 50% 50%, rgba(125,170,140,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .mission-line {
+            width: 60px;
+            height: 1px;
+            background: var(--gs-sage);
+            margin: 0 auto 2.2rem;
+            opacity: 0.5;
+        }
+
+        .mission blockquote {
+            font-family: 'Crimson Pro', serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: clamp(1.3rem, 2.8vw, 2rem);
+            color: var(--gs-text);
+            max-width: 680px;
+            margin: 0 auto;
+            line-height: 1.5;
+            letter-spacing: -0.01em;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(.16,1,.3,1), transform 0.8s cubic-bezier(.16,1,.3,1);
+        }
+
+        .mission blockquote.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mission blockquote em {
+            color: var(--gs-sage);
+            font-style: normal;
+        }
+
+        /* ═══════════════════════════════
+           FOOTER
+        ═══════════════════════════════ */
+        footer {
+            background: var(--gs-footer);
+            padding: 1.8rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        footer p {
+            font-size: 0.82rem;
+            color: rgba(107,114,128,0.7);
+            letter-spacing: 0.04em;
+        }
+
+        /* ═══════════════════════════════
+           KEYFRAMES
+        ═══════════════════════════════ */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ═══════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════ */
+        @media (max-width: 768px) {
+            nav { padding: 0 1.25rem; }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+            }
+
+            .card--mystery { min-height: 280px; }
+
+            .products { padding: 4.5rem 1.25rem 5rem; }
+            .mission  { padding: 4.5rem 1.25rem; }
+        }
+
+        @media (max-width: 400px) {
+            .hero { padding: 6rem 1.25rem 4rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav id="nav">
+        <a href="#" class="nav-brand">GentleSpace Labs</a>
+        <a href="#apps" class="nav-link">Our Apps</a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-eyebrow">GentleSpace Labs</span>
+            <h1>Life,&nbsp;<span class="sage">uplifted</span>.</h1>
+            <p class="hero-sub">Building apps that make everyday life easier, more thoughtful, and more meaningful.</p>
+            <a href="#apps" class="hero-cta">Our Apps <span class="arrow">↓</span></a>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="products" id="apps">
+        <div class="section-header">
+            <span class="section-label">What we build</span>
+            <h2>Our Apps</h2>
+        </div>
+
+        <div class="products-grid">
+
+            <!-- Card 1 — Interlude -->
+            <div class="card card--interlude">
+                <div class="card-icon">
+                    <img src="./image2/icon.webp" alt="Interlude icon">
+                </div>
+                <div class="app-name">Interlude</div>
+                <div class="app-tagline">Sleep, breathe, and find your calm.</div>
+                <span class="card-pill">Relaxation · Nature Sounds</span>
+                <div class="card-bottom">
+                    <a href="./interlude/index.html" class="btn-explore">Explore <span>→</span></a>
+                    <span class="platform-badge">Android</span>
+                </div>
+            </div>
+
+            <!-- Card 2 — Mystery (Coming Soon) -->
+            <div class="card card--mystery">
+                <!-- Blurred content beneath -->
+                <div class="mystery-blur-layer">
+                    <div class="mx-icon-placeholder">
+                        <div class="mx-icon-dot"></div>
+                    </div>
+                    <div class="mx-app-name">Sq████████</div>
+                    <div class="mx-tagline">Never miss a renewal again.</div>
+                    <span class="mx-pill">Productivity · Life Admin</span>
+                    <div class="mx-ui-mockup">
+                        <div class="mx-ui-row">
+                            <div class="mx-ui-dot green"></div>
+                            <div class="mx-ui-line" style="width:70px"></div>
+                            <div class="mx-ui-line" style="width:38px; opacity:0.5"></div>
+                            <span class="mx-ui-badge">In 49d</span>
+                        </div>
+                        <div class="mx-ui-row">
+                            <div class="mx-ui-dot blue"></div>
+                            <div class="mx-ui-line" style="width:55px"></div>
+                            <div class="mx-ui-line" style="width:50px; opacity:0.5"></div>
+                            <span class="mx-ui-badge" style="color:#1565C0;background:rgba(21,101,192,0.1)">In 12d</span>
+                        </div>
+                        <div class="mx-ui-row">
+                            <div class="mx-ui-dot grey"></div>
+                            <div class="mx-ui-line" style="width:80px"></div>
+                            <div class="mx-ui-line" style="width:28px; opacity:0.3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coming Soon overlay -->
+                <div class="mystery-overlay">
+                    <span class="coming-soon-pill">Coming Soon</span>
+                    <span class="coming-soon-sub">Something new is in the works.</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MISSION STRIP -->
+    <section class="mission">
+        <div class="mission-line"></div>
+        <blockquote id="mission-quote">
+            "Founded to make everyday life <em>easier</em>, more <em>thoughtful</em>, and more <em>meaningful</em> to everyone."
+        </blockquote>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2025 GentleSpace Labs</p>
+    </footer>
+
+    <script>
+        // Nav blur on scroll
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('scrolled', window.scrollY > 40);
+        }, { passive: true });
+
+        // Scroll-reveal: product cards + mission quote
+        const revealEls = document.querySelectorAll('.card, #mission-quote');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+        revealEls.forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
